@@ -1,24 +1,31 @@
-import logo from './logo.svg';
 import './App.css';
+import { configureStore } from '@reduxjs/toolkit'
+import { Provider } from 'react-redux'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import DashboardComponent from './Components/DashboardComponent';
+import UserComponent from './Components/UserComponent';
+import order_slice from './redux/order_slice';
+import SingleUserComponent from './Components/SingleUserComponent';
+
+
+
+const store = configureStore({
+  reducer: {
+    orders : order_slice
+  }
+})
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store = {store}>
+        <BrowserRouter>
+          <Routes>
+            <Route exact path='/' element={<DashboardComponent/>}/>
+            <Route exact path='/user' element={<UserComponent/>}/>
+            <Route exact path='/user/:id' element={<SingleUserComponent/>}/>
+          </Routes>
+        </BrowserRouter>
+    </Provider>
   );
 }
 
